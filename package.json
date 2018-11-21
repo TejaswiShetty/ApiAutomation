@@ -1,0 +1,89 @@
+{
+  "name": "cucumber-js",
+  "version": "2.3.1",
+  "description": "A platform independent debuggable BDD Javascript testing framework. It's simple, easy to use and not dependant to any other tool or library. It's built with Nodejs, webdriverio and cucumber-js",
+  "Author": {
+    "name": "TejaswiR",
+    "email": "tejaswi.shetty08@gmail.com",
+    "twitter": "",
+    "url": ""
+  },
+  "license": "MIT",
+  "keywordfs": [
+    "webdriverio",
+    "cucumber",
+    "cucumber-js",
+    "webdriver",
+    "api testing",
+    "browserstack",
+    "functional testing",
+    "bdd",
+    "api",
+    "webdrivercss",
+    "selenium",
+    "framework",
+    "javascript",
+    "tdd",
+    "test-framework",
+    "testing-framework",
+    "testing"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/larryg01/klassi-cucumber-js"
+  },
+  "engines": {
+    "node": ">= 8.12.0",
+    "npm": ">= 6.4.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "all": "node index.js -e -d -t ~@wip ",
+    "dev": "node index.js -d -t @api",
+    "test": "node index.js -e -d -w browserstack/osxhs-chrome -t @search",
+    "stack": "node index.js -e -d -w browserstack -x"
+  },
+  "nyc": {
+    "include": [
+      "**/page-objects/**"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ]
+  },
+  "homepage": "https://github.com/larryg01/klassi-cucumber-js#readme",
+  "dependencies": {
+    "browserstack-local": "^1.3.1",
+    "chai": "^4.1.2",
+    "chalk": "^2.4.1",
+    "chromedriver": "^2.38.3",
+    "commander": "^2.11.0",
+    "cucumber": "^4.2.1",
+    "cucumber-html-reporter": "^4.0.2",
+    "cucumber-pretty": "^1.4.4",
+    "fs-extra": "^5.0.0",
+    "geckodriver": "^1.10.0",
+    "merge": "^1.2.1",
+    "moment": "^2.22.1",
+    "node-dir": "^0.1.17",
+    "node-resemble-js": "^0.2.0",
+    "nodemailer": "^4.3.1",
+    "nodemailer-ses-transport": "^1.5.1",
+    "random-words": "^0.0.1",
+    "request": "^2.86.0",
+    "request-promise": "^4.2.2",
+    "require-dir": "^0.3.2",
+    "selenium-standalone": "^6.15.0",
+    "tar": "^4.4.2",
+    "webdrivercss": "^1.1.10",
+    "webdriverio": "^4.12.0",
+    "winston": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^9.6.15",
+    "eslint": "^5.7.0",
+    "multiple-cucumber-html-reporter": "^1.10.1",
+    "wdio-visual-regression-service": "^0.9.0"
+  }
+}

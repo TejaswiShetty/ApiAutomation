@@ -1,0 +1,151 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+
+version: 2.0
+
+references:
+  container_config: &container_config
+    working_directory: ~/klassi-cucumber-js
+    docker:
+      - image: circleci/node:8.12
+
+  restore_repo: &restore_repo
+    restore_cache:
+      keys:
+        - v1-repo-{{ .Branch }}-{{ .Revision }}
+        - v1-repo-{{ .Branch }}
+        - v1-repo
+
+  npm_cache_key: &npm_cache_key
+    v3-dependency-npm-{{ checksum "package.json" }}
+  npm_backup_cache_key: &npm_backup_cache_key
+    v3-dependency-npm
+
+  restore_npm_dependencies: &restore_npm_dependencies
+    restore_cache:
+      keys:
+        - *npm_cache_key
+        - *npm_backup_cache_key
+
+  restore_acceptance_builds: &restore_acceptance_builds
+    restore_cache:
+      key: v1-acceptance-build-{{ .Branch }}-{{ .Revision }}
+
+jobs:
+  checkout_code:
+    <<: *container_config
+    steps:
+      - *restore_repo
+      - checkout
+
+      - restore_cache:
+          key: v3-dependency-npm-{{ checksum "package.json" }}
+
+      - run:
+          name: Install NPM
+          command: npm install
+
+      - save_cache:
+          key: v3-dependency-npm-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
+  acceptance_test_build:
+    <<: *container_config
+    steps:
+      - *restore_repo
+      - *restore_npm_dependencies
+      - checkout
+
+      - store_artifacts:
+          path: ./artifacts
+
+#      - run:
+#          name: Install Dependencies
+#          command: npm install
+#
+      - run:
+          name: Java Installation
+          command: |
+            sudo apt update
+            sudo apt install software-properties-common
+#            sudo add-apt-repository ppa:linuxuprising/java
+#            sudo apt update
+#            sudo apt-cache policy oracle-java11-installer
+
+      - run:
+          name: Builld Selenium Server
+          command: |
+            sudo npm install selenium-standalone@latest -g --save-dev
+            sudo selenium-standalone install
+            sudo selenium-standalone start
+#            npm run-script test
+
+#    - run:
+#        name: Install Selenium Server
+#        command: selenium-standalone install
+#        background: true
+#
+#    - run:
+#        name: Start Selenium Server
+#        command: selenium-standalone start &&
+#        background: true
+
+#    - run:
+#        name: Check Selenium Server running
+#        command: |
+#          sleep 5
+#          curl --retry 10 --retry-delay 5 -v http://127.0.0.1:4444/
+
+#    - save_cache:
+#        paths:
+#        - node_modules
+#        key: v1-dependencies-{{ checksum "package.json" }}
+#
+#    - run: npm run-script dev
+
+#  acceptance_test:
+#      <<: *container_config
+#      steps:
+#        - run: "echo 'FINISHED'"
+
+#  acceptance_test:
+#    <<: *container_config
+#    docker:
+#    - image: circleci/node:8.12
+#
+#    working_directory: ~/repo
+
+#    steps:
+#      - checkout
+#
+#      # Download and cache dependencies
+#      - restore_cache:
+#          keys:
+#          - v1-dependencies-{{ checksum "package.json" }}
+#          # fallback to using the latest cache if no exact match is found
+#          - v1-dependencies-
+#
+#      - run: npm install
+#
+#      - save_cache:
+#          paths:
+#          - node_modules
+#          key: v1-dependencies-{{ checksum "package.json" }}
+
+#      - run: npm run-script test
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - checkout_code
+
+      - acceptance_test_build:
+          requires:
+            - checkout_code
+
+      - acceptance_test:
+          requires:
+            - acceptance_test_build

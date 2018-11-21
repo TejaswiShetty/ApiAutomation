@@ -1,0 +1,15 @@
+{
+  "Details" : {
+    "Name": "Automated Testing Tool",
+    "Created by": ""
+  },
+
+  "auth":{
+    "host": "domain.com",
+    "user": "userEmail",
+    "pass": "password"
+  },
+
+  "nameList": "QA Analyst <tejaswi.shetty08@gmail.com>, Me <tejaswi.shetty08@gmail.com>"
+}
+

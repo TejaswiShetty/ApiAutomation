@@ -1,0 +1,9 @@
+{
+  "Details" : {
+    "Name": "Automated Testing Tool",
+    "Created by": ""
+  },
+
+  "base_url": "<base url holder>",
+  "api_base_url": "<base api url holder>",
+}

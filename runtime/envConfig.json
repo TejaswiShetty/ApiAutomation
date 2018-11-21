@@ -1,0 +1,11 @@
+{
+  "Details" : {
+    "Name": " Automated Testing Tool",
+    "Created by": ""
+  },
+
+  "url" : {
+    "api_base_url": "http://httpbin.org/",
+    "api_base_Post_url":"https://reqres.in/"
+  }
+}
